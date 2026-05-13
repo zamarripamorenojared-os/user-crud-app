@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UserVault — Gestión de Usuarios</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="grain"></div>
+
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">UserVault</span>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" data-view="list">
+        <span class="nav-icon">◈</span> Usuarios
+      </button>
+      <button class="nav-btn" data-view="register">
+        <span class="nav-icon">◉</span> Registrar
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <p class="footer-label">Base de datos local</p>
+      <div class="db-indicator">
+        <span class="db-dot"></span> localStorage activo
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Todos los Usuarios</h1>
+        <p class="page-subtitle" id="pageSubtitle">Gestión completa de registros</p>
+      </div>
+      <div class="topbar-right">
+        <div class="search-wrap" id="searchWrap">
+          <input type="text" id="searchInput" class="search-input" placeholder="Buscar usuario..." />
+          <span class="search-icon">⌕</span>
+        </div>
+        <div class="counter" id="userCounter">0 usuarios</div>
+      </div>
+    </header>
+
+    <!-- ============ VIEW: LIST ============ -->
+    <section class="view active" id="view-list">
+      <div id="userGrid" class="user-grid"></div>
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">◈</div>
+        <h3>Sin registros</h3>
+        <p>Aún no hay usuarios guardados.</p>
+        <button class="btn btn-primary" onclick="switchView('register')">Registrar primer usuario</button>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: REGISTER / EDIT ============ -->
+    <section class="view" id="view-register">
+      <div class="form-card">
+        <div class="form-header">
+          <h2 id="formTitle">Nuevo Usuario</h2>
+          <p id="formDesc">Completa todos los campos para registrar</p>
+        </div>
+
+        <form id="userForm" autocomplete="off">
+          <input type="hidden" id="editId" />
+
+          <div class="field-row">
+            <div class="field">
+              <label for="firstName">Nombre(s)</label>
+              <input type="text" id="firstName" placeholder="Ej. María Elena" required />
+              <span class="field-error" id="errFirst"></span>
+            </div>
+            <div class="field">
+              <label for="lastName">Apellido(s)</label>
+              <input type="text" id="lastName" placeholder="Ej. González Ruiz" required />
+              <span class="field-error" id="errLast"></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="usuario@correo.com" required />
+            <span class="field-error" id="errEmail"></span>
+          </div>
+
+          <div class="field">
+            <label for="password">Contraseña</label>
+            <div class="pass-wrap">
+              <input type="password" id="password" placeholder="Mínimo 6 caracteres" required />
+              <button type="button" class="pass-toggle" id="passToggle">◎</button>
+            </div>
+            <div class="pass-strength" id="passStrength">
+              <div class="pass-bar"><div class="pass-fill" id="passFill"></div></div>
+              <span id="passLabel">—</span>
+            </div>
+            <span class="field-error" id="errPass"></span>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" id="cancelBtn" onclick="cancelForm()">Cancelar</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn">Guardar usuario</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ MODAL: DETAIL ============ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-avatar" id="modalAvatar"></div>
+      <h2 class="modal-name" id="modalName"></h2>
+      <p class="modal-email" id="modalEmail"></p>
+      <div class="modal-meta">
+        <span id="modalId"></span>
+        <span id="modalDate"></span>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="modalEdit">✎ Editar</button>
+        <button class="btn btn-danger" id="modalDelete">⌫ Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
